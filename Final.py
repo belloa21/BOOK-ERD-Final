@@ -1,13 +1,12 @@
 # Alex Bello
-# April 30, 2020
-# Database test using SQLite Database
+# May 15, 2020
+# Updating an sqlite to include an ERD
 
 # SQLite is a simple SQL database that does not require
 # a database server.
 
 import sqlite3
 from sqlite3 import Error
-from datetime import datetime
 
 
 # Method to create the connection to the database.
@@ -85,7 +84,7 @@ CREATE TABLE IF NOT EXISTS book (
 
 order_table = """
 CREATE TABLE IF NOT EXISTS
-  ordering (
+  order (
   order_number INTEGER PRIMARY KEY AUTOINCREMENT,
   order_date   TEXT,
   order_total  TEXT,
@@ -93,8 +92,8 @@ CREATE TABLE IF NOT EXISTS
   CONSTRAINT order_fk_customer
   FOREIGN KEY (customer_id)
   REFERENCES customer (customer_id)
-);
-"""
+  );
+  """
 
 
 order_line_item = """
@@ -135,6 +134,15 @@ VALUES
   (3, 'Fitness', 'Kim', '120', '1', '12.50', 'Naples');
 """
 
+create_order = """
+INSERT INTO
+ order (order_number, order_date, order_total, customer id);
+ """
+
+create_order_line_item = """
+ INSERT INTO
+ order_line_item (order_number, book_id, quantity);
+ """
 
 # Execute the four queries to create the tables of the database
 print("\nRun the query to create the customer table:")
@@ -150,9 +158,9 @@ execute_query(connection, create_order_table)
 print("\nRun the query to add orders to the order table:")
 execute_query(connection, create_order)
 print("\nRun the query to create the order line table:")
-execute_query(connection, create_order_line_table)
+execute_query(connection, create_order_line_item_table)
 print("\nRun the query to add to the order line table:")
-execute_query(connection, create_order_line)
+execute_query(connection, create_order_line_item)
 #--------------------------------------------------#
 
 menu = 0
@@ -250,7 +258,7 @@ while menu != 6:
 
     if menu == 3:
         while menu4 != 5:
-            print("This is the menu for the books table, what would you like to do?")
+            print("This is the menu for the orders table, what would you like to do?")
             print("1. Add a new order.")
             print("2. Modify an order")
             print("3. Print a list of orders")
@@ -289,10 +297,47 @@ while menu != 6:
 
     if menu == 4:
         while menu5 != 5:
-            print("This is the menu for the books table, what would you like to do?")
-            print("1. Add a new order line.")
-            print("2. Modify an order line")
-            print("3. Print a list of order lines")
-            print("4. Delete an order line.")
+            print("This is the menu for the order line item table, what would you like to do?")
+            print("1. Add a new order line item.")
+            print("2. Modify an order line item.")
+            print("3. Print a list of order line items.")
+            print("4. Delete an order line item.")
             print("5. Return to the main menu")
-            menu3 = int(input(">"))
+            menu5 = int(input(">"))
+
+            if menu4 == 1:
+                add_order = """"
+                INSERT INTO
+                order (order_number, book_id, quantity)
+                VALUES
+                ('input', 'input', 'input');
+                """
+
+            if menu4 == 2:
+                print("\nThis will let you change a part of an order line item.")
+                update_order_name = """
+                UPDATE
+                order_line_item
+                SET
+                order_number = ''
+                WHERE
+                order_number = ''
+                SET
+                book_id = ''
+                WHERE
+                book_id = ''
+                SET
+                quantity = ''
+                WHERE
+                quantity = ''
+                """
+
+            if menu4 == 3:
+                select_order_line_item = "SELECT * from order_line_item"
+                order_line_item = execute_read_query(connection, select_order_line_item)
+
+                for order_line_item in order_line_item:
+                    print(order_line_item)
+
+            if menu4 == 4:
+                "DELETE FROM order_line_item"
